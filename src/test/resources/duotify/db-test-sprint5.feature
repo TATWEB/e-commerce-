@@ -15,10 +15,6 @@ Scenario: Verify the column length for name column of the playlists table
     Then The update should be also successful on the UI
 
 
-  Scenario: Verify the unicode support for name column of the playlists
-    Given I am connected to the DB
-    When I update the name column with unicode chars, the update should be successful
-    Then The update should be also successful on the UI
 
 
 
