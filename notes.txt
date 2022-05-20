@@ -1,0 +1,346 @@
+For Cucumber framework we will need the following 3 dependencies:
+cucumber-java, cucumber-core, cucumber-junit
+
+ Building Structure and steps to create framework
+- add dependencies in pom
+- add pages in test (pages, utilities)
+- add resources folder
+- add step definitions
+- add runner
+- add properties file (for Configuration Reader)
+- add .gitignore
+- create feature files in resources folder -  files that contains business reqs
+- install plugins Cucumber java and Gherkin
+- first feature file is search.feature
+
+
+
+Each feature file have
+Feature -> general description of the business req
+and Scenarios-> test cases
+Each Scenario has Gherkin language words like Given, When, Then, And
+
+Given ->  is a precondition
+
+After we created feature file we create a runner class which is going to run our test
+We use @RunWith annotation (Cucumber.class)
+If we run this class just like this it will ask to get the path to the resource folder
+To do that we add another annotation @CucumberOptions where we indicate the location of the features
+feature = " path to the resource folder"
+if we run this just like this it give us the option of the step defenitions we copy/pase it to the StepDefinitions class,
+we name it after the feature. Example SearchStepDef, where we put our Given, When, Then steps,
+(delete default implementation, and write your own code) -> regular java method
+After that we need to connet the runner class with StepDefinitions package, although we have indicated
+the path, it is not enough
+We do it with the help of glue -> relative path to the StepDefinition
+
+features and glue are the essential steps to run the test in Cucumber
+
+if we have several scenarious we can differentiate between them with the help of tags, incidating these tags
+in the Runner class in Cucumber Options
+
+
+Implementation
+
+1. in StepDefenition  Given we get our driver (using Singleton and ConfigReader)
+2. in Page folder we create a class Homepage using pageFactory and @FindBy annotation for location searchBox
+3. in StepDefinitions When we create an Object of the Page and sending some key (looked item) to the searchBox
+4. hit enter in the same line
+5. add Assertion (which comes from JUNIT)
+
+
+Flow
+When we run our Runner class, the tool that runs everything is Junit (RunWith), the execution goes to
+the feature file, location that specific scenario, inspectin the first step - if there is a connectin code
+it goes to the class where that connected code is (StepDefinition) because of glue, and executes it.
+Then execution goes back to scan the second step in feature file, and the same isue with the connecting code, etc.
+
+
+In Cucumber framework:
+  - the test scenarios are put in a feature file which are usually are created under resources' folder
+  - the feature file scenario steps are connected to step definitions through @CucumberOptions glue option in Runner class
+      // Cucumber scenario step is matched to step definition method using the text of the scenario step
+      // either with Regular Expressions or Cucumber Expressions
+  - tags are the main way to control what scenario or feature files
+  - Background -> the common steps for ALL scenarios of a feature file can be moved to Background steps
+  - Hooks -> Step definition methods annotated with @Before and @After (from Cucumber Java- not JNUNT) that are executed
+            before/after each SCENARIO
+  - The annotated methods can be added into any class under Step Definitions folder but usually added into a separate class
+            Hooks are placed in StepDefenitions
+
+
+  If you need to specify information in a scenario that won't fit on a single line, you can use a DocString. (""" """)
+  When you use a doctring make sure to put each triple quote on its own line.
+  Ex: Scenario: Example scenario for Database
+      When I send the following query
+        """
+           select first_name,last_name,email,address,district,city,country from customer
+           join address
+           on customer.address_id = address.address_id
+           join city
+           on address.city_id  = city.city_id
+           join country
+           on city.country_id = country.country_id;
+         """
+
+
+      What are some common Cucumber exceptions?
+
+      - UndefinedStepException -  when a scenario step does not have matching step definition method
+
+      - PendingException - default exception that added to each step definition snippet
+
+      - AmbiguousStepDefinitionsException - this happens when one step has more than one matching step definitions
+
+      - DuplicateStepDefinitionException - happens when there are more than step definitions with the exactly matching text
+
+      - CucumberException: Could not convert arguments for step [I pass this information]
+           defined at - happens when step definition parameter type does not match the datatable
+
+
+  When Cucumber converts the DataTable into corresponding Java data structures (List, Map), it creates
+  unmodifiable versions of these data structures.
+
+
+
+
+  Cucumber DataTable - a cucumber structure that enables table-style data to be passed from a SINGLE step of a Cucumber scenario
+                       into the step definition method
+        Example:           Given I am on homepage
+                           When I pass this information
+                           | John | Doe | 12/09/1999 | 235-345-1234 | 322-09-6322 | 123 Main St, Vienna VA 22056 |
+
+The DataTable is added to the cucumber step definition method as a parameter, we simply need to replace it with corresponding
+Java data structure for automatic transformation. The allowed types are List<E>, List<List<E>>, List<Map<K,V>>,
+Map<K,V>  Map<K, List<V>> where E,K,V must be a String, Integer, Float, Double, Byte, Short, Long
+
+
+
+
+   Running tests through CMD in Cucumber Framework:
+
+      - Add Maven Surefire plugin (the latest version)
+      - Configure it by including the name of the class to run:
+
+                         <configuration>
+                              <includes>
+                                  <include>**/*CucumberRunner.java</include>
+                              </includes>
+                          </configuration>
+
+      - Run with mvn test
+
+
+
+      Running scenarios with specific tags through cmd:
+
+      mvn verify -Dcucumber.filter.tags="@temp"
+      mvn verify -Dcucumber.filter.tags="@test and @temp"
+      mvn verify -Dcucumber.filter.tags="@test or @temp"
+      mvn verify -Dcucumber.filter.tags="@test and not @temp"
+
+      When you run your test through CMD using Maven, tags passed thru CMD will override the tags from CukeRunner class.
+
+
+
+      In Cucumber framework we can implement data-driven testing natively with Scenario Outline with Examples table.
+
+      The difference between DataTable and Scenario Outline Examples table -> datatable belongs to one step of the scenario,
+      Examples table applies to the entire scenario
+
+      If we have a large a dataset it can also read from an external file such as csv or Excel file.
+      To read from Excel file we use Apache POI library from Apache Foundation that provides all open source tools
+      To read from CSV file or a text file we can use the utility of java to do that, because these files are
+      text file, whereas the Excel file is a binary file (like pictures) that is what Java utils methods will not work
+      Till now we used Apache Maven, now we are going to use Apache POI, another popular tool is Apache Kafka (message sending tool)
+      Apache POI is a library - a tool that helps to read from Microsoft Documents (Word, Excel, PowerPoint)
+
+
+      @RunWith -> Junit annotation that makes the class a runnable class
+      @CucumberOptions -> Cucumber annotation that helps us configure cucumber options to run the tests
+      their can be several Runner Classes for different purpuses (ex. for regression tests, for smoke tests)
+
+      How to run a specific runner class through CMD when you have multiple runners?
+      - Maven surefire plugin determines the name of the runner class to run within its <configuration>  and <includes> tag
+
+                  <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-surefire-plugin</artifactId>
+                      <version>3.0.0-M5</version>
+                      <configuration>
+
+                          <testFailureIgnore>true</testFailureIgnore>
+                          <includes>
+                              <include>**/*CucumberRunner2.java</include>-->
+                           </includes>
+                      </configuration>
+                  </plugin>
+
+      - When you have multiple runners you can use a placeholder in surefire plugin
+        and pass the name of the runner class through command line with -D switch -> mvn verify -DrunnerClass=**/*CucumberRunner2.java
+
+                       <plugin>
+                          <groupId>org.apache.maven.plugins</groupId>
+                          <artifactId>maven-surefire-plugin</artifactId>
+                          <version>3.0.0-M5</version>
+                          <configuration>
+
+                              <testFailureIgnore>true</testFailureIgnore>
+                              <includes>
+
+                                  <include>${runnerClass}</include>-->
+
+                              </includes>
+                          </configuration>
+                      </plugin>
+
+
+      - How to re-run only the failed scenarios in Cucumber framework? (for ex. because of poor internet connection)
+
+        1. Add "rerun:target/failed.txt" to your main runner class which generates a text file with the list of failed scenarios
+        2. Add another runner class where you indicate the above text file's path for features:
+                   features = "@target/failed.txt"
+        3. Run main runner and failed scenarios runner back to back through Maven Surefire plugin:
+             <plugin>
+                           <groupId>org.apache.maven.plugins</groupId>
+                           <artifactId>maven-surefire-plugin</artifactId>
+                           <version>3.0.0-M5</version>
+                           <configuration>
+
+                               <testFailureIgnore>true</testFailureIgnore>
+                               <includes>
+                                  <include>**/*CucumberRunner.java</include>-->
+                                   <include>**/*FailedScenariosRunner.java</include>-->
+                               </includes>
+                           </configuration>
+             </plugin>
+
+
+         - How to run cross-browser tests in Cucumber framework?
+           - We pass the name of the browser thru command line with -D switch and run the same tests with multiple commands
+           - This can be done through batch file or through Jenkins commands
+           - batch file example:  (only for windows)
+                   call mvn verify -Dbrowser=edge
+                   call mvn verify -Dbrowser=chrome
+                   call mvn verify -Dbrowser=headlessChrome
+
+
+         We use "mvn verify" in Cucumber framework to run tests so that the pretty report is generated,
+           otherwise you can run the tests as usual with mvn test
+
+
+        How to run tests in parallel in Cucumber framework?
+
+        We can enable parallel test in Cucumber natively with JUnit. But we need to remember that with this option
+        you can run only FEATURES in parallel.
+        If there is a need for running SCENARIOS in parallel, you can incorporate TestNG.
+
+        Steps to implement running parallel Features in Cucumber with Junit:
+         1.Give the scope of the feature files that you want to run in parallel in your runner class
+              features = "src/test/resources/parallel"
+           Optionally create a separate folder for feature files that you want to run in parallel
+
+         2.Add these 2 options under the <configuration> tag of Maven Surefire plugin:
+                <parallel>methods</parallel>
+                <useUnlimitedThreads>true</useUnlimitedThreads>
+          To control the Threads count we use
+           <parallel>methods</parallel>
+           <threadCount>4</threadCount>
+
+
+         3.Run the tests through command line -> mvn verify or mvn test
+
+
+
+
+----------------------------------------------------------------------------------------------
+        Database connecting using JDBC
+        DriverManager is the class to establish the connection
+
+         DB Testing
+
+         How do you test the DB?
+         Can you explain your overall DB testing strategy?
+         -Data Flow
+         -Data Mapping
+         -Business rules
+         -Unit testing (verify column names, data types, ranges) - QAs can be also involved in Unit testing
+         -Performance/Security - QAs can be also part of Performance testing (to check the speed for example)
+            SQL injection attach  ?????
+
+
+          Can you explain your overall DB testing strategy?
+        - My database testing strategy consists of testing multiple aspects of the DB. I start with basic testing of the
+         data flow from UI to DB and vice versa. - this is what we call Data Flow.
+        - I also verify the correct data mapping of the information for corresponding
+         fields on the UI and columns in the DB. - Data Mapping
+        - I also verify various business rules and logic related to the DB. - Business rulles
+
+
+         Common database testing scenarios:  !!!!! very important
+
+         Verify that data inserted from UI is reflected properly in the appropriate table and vice versa.
+         Check for data integrity. Data should be stored in single or multiple tables based on design.
+         Verify Table Schema, Column names as per Design Document
+         Verify Unicode Support (e.g store Chinese/Japanese Characters)
+         Check if input data is not truncated while saving. Field length shown to the user on a page and in database schema should be the same
+         Check numeric fields with minimum, maximum, and float values
+         Check numeric fields with negative values
+         Check if database fields are designed with the correct data type and data length
+         Check if all table constraints like a Primary key, Foreign key, etc. are implemented correctly
+         Test stored procedures and triggers with sample input data
+         Test if input field leading and trailing spaces are truncated before committing data to the database
+         Check values for columns which are not accepting null values
+         Null values should not be allowed for the Primary key column
+         Checking for duplicates.
+
+
+------------------------------------------------------------------------------------------
+
+         Git Branching WorkFlow through Pull Requests:
+         1. Clone the framework into the local machine
+         2. Create a new branch -> git branch <branchName>
+         3. Switch to your branch -> git checkout <branchName>
+            It is important to VERIFY ON WHICH BRANCH you are currently at before adding any changes -> git branch
+         4. Add your changes and commit your changes in your own branch.
+         5. Push the new branch to remote repository -> we need to give the name of the remote repository and the branch
+              git push --set-upstream origin db_tests_sprint5
+         6. Create a PR (Pull Request) in Github to merge my branch changes with the main. CLick on create a pull request button and indicate which branches must be merged. Other collaborators will be notified about this PR.
+         7. The person authorized to merge the PR will need to review and merge and close the PR. If there are merge conflicts, they must be resolved before merging.
+         8. Once the my branch changes are successfully merged with the main in GitHub, bring the changes from remote's main to local main with "git pull" while you are in main  branch locally
+         9. Once you have your and other team member's changes in your local main, to merge them into your branch use "git rebase main" or "git merge main" while in your branch
+
+
+
+
+git branch -> command that shows all branches and current branch you are at
+git branch <name> --> creating
+git checkout <name>  -> switching the branch
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

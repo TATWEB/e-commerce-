@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>ecommerce-cucumber-bdd-tests</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!--    Maven-->
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!--        Selenium-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+        <!--        WebDriverManager-->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>5.1.1</version>
+        </dependency>
+        <!--        Faker-->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+
+        <!--      For Cucumber we need 3 kinds of Dependencies-->
+        <!--      all 3 cucumber dependencies must have the same version -->
+
+        <!--   Cucumber Java-->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.3.2</version>
+        </dependency>
+        <!--    Cucumber JUNIT-->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>7.3.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!--    Cucumber Core-->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>7.3.2</version>
+        </dependency>
+
+
+        <!--        AssertJ Java Core-->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.22.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--        Apache POI-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+
+
+        <!--        MySQL-->
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+        </dependency>
+
+
+        <!--        Rest Assured-->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.0.1</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <!--        Maven SureFire plugin - should be added on the project level-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+
+                    <!--                     to enable parallel run of features-->
+<!--                    <parallel>methods</parallel>-->
+<!--                    <useUnlimitedThreads>true</useUnlimitedThreads>-->
+
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <includes>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <!--                        <include>${runnerClass}</include>&ndash;&gt;
+                         -> this is a placeholder for runner classes, with the help of which we choose
+                         in cmd which runner class we want to run
+                         mvn verify -DrunnerClass = **/*CucumberRunner.java
+                         we can also change the tag throug cmd
+                         mvn verify -DrunnerClass = **/*CucumberRunner.java -Dcucumber.filter.tag=@temp
+                         -->
+
+                        <include>**/*CucumberRunner.java</include>
+                        <!--as CucumberRunner in its Cucumber Options has the path resources, that means
+                        everything inside resources will be run. So there is no need to create a separate
+                        Runner classes to run -->
+                        <!--                        <include>**/*ParallelRunner.java</include>&ndash;&gt;-->
+                        <!--                        <include>**/*FailedScenariosRunner.java</include>&ndash;&gt;-->
+
+                    </includes>
+                </configuration>
+            </plugin>
+            <!--        Maven Cucumber reporting plugin-->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.6.2</version>
+
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+
+                        <configuration>
+                            <projectName>Ecommerce App Automation Tests</projectName>
+
+                            <!-- output directory for the generated report -->
+                            <outputDirectory>${project.build.directory}/pretty-html-report</outputDirectory>
+                            <!-- optional, defaults to outputDirectory if not specified -->
+                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <jsonFiles>
+                                <!-- supports wildcard or name pattern -->
+                                <param>**/*.json</param>
+                            </jsonFiles>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
