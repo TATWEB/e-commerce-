@@ -1,5 +1,6 @@
 package stepDefinitions;
 
 public class DBsprint5Defs {
-    // testing out branching
+  // removed the password and added to config
 }
+ 
