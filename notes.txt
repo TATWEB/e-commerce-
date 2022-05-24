@@ -321,7 +321,7 @@ git branch -> command that shows all branches and current branch you are at
 git branch <name> --> creating a new branch
 git checkout <branch name>  -> switching the branch
 
-some text
+some text some some text some text
 
 
 
