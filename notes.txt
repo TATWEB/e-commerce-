@@ -314,8 +314,10 @@ Map<K,V>  Map<K, List<V>> where E,K,V must be a String, Integer, Float, Double, 
 
 
 git branch -> command that shows all branches and current branch you are at
-git branch <name> --> creating
-git checkout <name>  -> switching the branch
+git branch <name> --> creating a new branch
+git checkout <branch name>  -> switching the branch
+
+
 
 
 
