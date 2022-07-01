@@ -305,10 +305,14 @@ Map<K,V>  Map<K, List<V>> where E,K,V must be a String, Integer, Float, Double, 
          4. Add your changes and commit your changes in your own branch.
          5. Push the new branch to remote repository -> we need to give the name of the remote repository and the branch
               git push --set-upstream origin db_tests_sprint5
-         6. Create a PR (Pull Request) in Github to merge my branch changes with the main. CLick on create a pull request button and indicate which branches must be merged. Other collaborators will be notified about this PR.
-         7. The person authorized to merge the PR will need to review and merge and close the PR. If there are merge conflicts, they must be resolved before merging.
-         8. Once the my branch changes are successfully merged with the main in GitHub, bring the changes from remote's main to local main with "git pull" while you are in main  branch locally
-         9. Once you have your and other team member's changes in your local main, to merge them into your branch use "git rebase main" or "git merge main" while in your branch
+         6. Create a PR (Pull Request) in Github to merge my branch changes with the main. CLick on create
+         a pull request button and indicate which branches must be merged. Other collaborators will be notified about this PR.
+         7. The person authorized to merge the PR will need to review and merge and close the PR. If there are merge
+         conflicts, they must be resolved before merging.
+         8. Once the my branch changes are successfully merged with the main in GitHub, bring the changes from
+         remote's main to local main with "git pull" while you are in main  branch locally
+         9. Once you have your and other team member's changes in your local main, to merge them into your branch
+         use "git rebase main" or "git merge main" while in your branch
 
 
 
@@ -316,6 +320,11 @@ Map<K,V>  Map<K, List<V>> where E,K,V must be a String, Integer, Float, Double, 
 git branch -> command that shows all branches and current branch you are at
 git branch <name> --> creating a new branch
 git checkout <branch name>  -> switching the branch
+
+some text some some text some text
+
+
+
 
 
 
