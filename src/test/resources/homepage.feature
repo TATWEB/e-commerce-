@@ -55,7 +55,7 @@ Feature: Homepage related features
   Scenario: Verify popular product names and their prices
     Given  I am on the homepage
     Then The popular products and their other details should be the following
-      | Faded Short Sleeve T-shirts | 16.51 | de  mo_1 | New |
+      | Faded Short Sleeve T-shirts | 16.51 | demo_1 | New |
       | Blouse                      | 27.00 | demo_2 | New |
       | Printed Dress               | 26.00 | demo_3 | New |
       | Printed Summer Dress        | 28.98 | demo_5 | New |
@@ -65,7 +65,7 @@ Feature: Homepage related features
 
 
 
-
+  @temp
   Scenario: Verify a single products details
     Given I am on the homepage
     When I click on "Blouse"
@@ -79,7 +79,6 @@ Feature: Homepage related features
 
 
 
-  # passing examples table thru data table
 
   Scenario Outline: Verify a products details for multiple products
     Given I am on the homepage
@@ -102,8 +101,6 @@ Feature: Homepage related features
   Scenario: Verify products details that are on sale
     Given I am on the homepage
     When I click on on products that are on sale their expected values should be correct according to the given excel file
-
-
 
 
 

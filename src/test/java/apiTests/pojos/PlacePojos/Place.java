@@ -1,4 +1,5 @@
 package apiTests.pojos.PlacePojos;
+
 import java.util.ArrayList;
 
 public class Place {
@@ -12,21 +13,18 @@ public class Place {
                 '}';
     }
 
-
     public ArrayList<Candidate> candidates;
-    public String status;
+      public String status;
 
 
-    public Place() {
-    }
-
+    public Place(){}
 
     public Place(ArrayList<Candidate> candidates, String status) {
         this.candidates = candidates;
         this.status = status;
     }
 
-    // Getters and Setters
+
     public ArrayList<Candidate> getCandidates() {
         return candidates;
     }
@@ -42,6 +40,7 @@ public class Place {
     public void setStatus(String status) {
         this.status = status;
     }
+
 
 
 }

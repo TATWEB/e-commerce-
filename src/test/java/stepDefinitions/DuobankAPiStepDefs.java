@@ -1,4 +1,4 @@
-﻿package stepDefinitions;
+package stepDefinitions;
 
 
 import io.cucumber.java.en.Given;
@@ -9,9 +9,13 @@ import io.restassured.specification.RequestSpecification;
 import utilities.APIUtils;
 import utilities.Endpoints;
 
-import static io.restassured.RestAssured.baseURI;
+
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
+
+import static io.restassured.RestAssured.*;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 public class DuobankAPiStepDefs {
 
@@ -26,10 +30,11 @@ public class DuobankAPiStepDefs {
 
         baseURI = "http://qa-duobank.us-east-2.elasticbeanstalk.com/api";
 
-        token = APIUtils.generateToken(user, pass);
+       token = APIUtils.generateToken(user, pass);
 
         System.out.println(token);
     }
+
 
 
     @When("I send a GET request to a {string} endpoint")

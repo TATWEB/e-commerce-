@@ -4,10 +4,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ConfigReader {    // only global project related data are kept here
+public class ConfigReader {
 
     private static Properties properties;
+
     static {
+
         try{
             String pathToPropertiesFile = "config.properties";
             FileInputStream fis = new FileInputStream(pathToPropertiesFile);
@@ -17,11 +19,15 @@ public class ConfigReader {    // only global project related data are kept here
         }catch(IOException e){
             e.printStackTrace();
         }
+
     }
 
-    public static String getProperty(String key) {   // wrapper method
-        return properties.getProperty(key);
-    }
+
+
+
+
+        public static String getProperty(String key){  // wrapper method
+          return  properties.getProperty(key);
+        }
+
 }
-
-

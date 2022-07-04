@@ -10,7 +10,7 @@ public class Candidate {
 
     // the variable in POJO should be private
 
-    public Candidate(){}   // empty constructor
+    public Candidate(){}
 
     public Candidate(String formatted_address, String name, OpeningHours opening_hours, Integer rating) {
         this.formatted_address = formatted_address;
@@ -19,8 +19,6 @@ public class Candidate {
         this.rating = rating;
     }
 
-
-    // Getters and Setters
     public String getFormatted_address() {
         return formatted_address;
     }

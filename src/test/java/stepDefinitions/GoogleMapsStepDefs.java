@@ -8,10 +8,12 @@ import io.restassured.specification.RequestSpecification;
 
 import java.util.*;
 
-import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
+
+import static io.restassured.RestAssured.*;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 public class GoogleMapsStepDefs {
 
@@ -23,14 +25,15 @@ public class GoogleMapsStepDefs {
     public void theBaseURIIsInitializedAndTheFollowingHeadersAreAdded(Map<String, String> headers) {
        baseURI = "https://maps.googleapis.com/maps/api/place";
 
-        Set<String> keys = headers.keySet(); // we use keySet to access the value of the keys
-        Iterator<String> iterator = keys.iterator(); // we use iterator to go through each key
+        Set<String> keys = headers.keySet();
+        Iterator<String> iterator = keys.iterator();
         String str;
         requestspecs = given().log().all().
                 queryParam(str = iterator.next(), headers.get(str)).
                 queryParam(str = iterator.next(), headers.get(str)).
                 queryParam(str = iterator.next(), headers.get(str)).
                 queryParam(str = iterator.next(), headers.get(str));
+
 
     }
     @When("I send a GET request to the {string} endpoint")
@@ -42,11 +45,15 @@ public class GoogleMapsStepDefs {
     public void theFollowingShouldBeCorrect(Map<String, String> responseValues) {
         List<String> keys = new ArrayList<>(responseValues.keySet());
 
+
         System.out.println(keys);
+
 
         System.out.println("candiates[0]." + keys.get(1));
         System.out.println(responseValues.get(keys.get(1)));
         System.out.println("candiates[0]." + keys.get(2));
+
+
 
         response.then().log().all().
                 assertThat().

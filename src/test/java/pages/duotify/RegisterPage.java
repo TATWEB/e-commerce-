@@ -1,12 +1,12 @@
 package pages.duotify;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.Driver;
 
 public class RegisterPage {
-
 
     @FindBy(id = "loginUsername")
     public WebElement usernameLog;
@@ -20,6 +20,7 @@ public class RegisterPage {
     public RegisterPage(){
         PageFactory.initElements(Driver.getDriver(), this);
     }
+
 
     @FindBy(id = "username")
     public WebElement username;

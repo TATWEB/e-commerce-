@@ -1,4 +1,3 @@
-
 package utilities;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -75,7 +74,7 @@ public class Driver {
         }
 
 
-        return  drivers.get();
+           return  drivers.get();
     }
 
 

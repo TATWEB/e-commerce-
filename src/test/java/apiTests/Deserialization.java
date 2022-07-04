@@ -1,6 +1,7 @@
-package apiTests.pojos;
+package apiTests;
 
 import apiTests.pojos.PlacePojosGeneratedFromOnlineSource.Place;
+import apiTests.pojos.VideoGame;
 import io.restassured.common.mapper.TypeRef;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -15,16 +16,16 @@ import static org.hamcrest.Matchers.equalTo;
 public class Deserialization {
 
 
-    //Serialization - process of converting Java type into stream of bytes to be sent across the network
+     //Serialization - process of converting Java type into stream of bytes to be sent across the network
     // Deserialization - opposite process of converting bytes into Java type.
 
     @BeforeClass
-    public static void setupBaseUri() {
+    public static void setupBaseUri(){
         baseURI = "http://localhost:8080/app"; // sets the base URI
     }
 
     @Test
-    public void deserializationIntoMap() {
+    public void deserializationIntoMap(){
 
         Integer expectedId = 1;
 
@@ -40,21 +41,26 @@ public class Deserialization {
                 header("Content-Type", "application/json").extract().as(Map.class);
 
         System.out.println(responseAsRawMap);
-        Integer actualId = (Integer) (responseAsRawMap.get("id"));
+        Integer actualId = (Integer)(responseAsRawMap.get("id"));
 
-        Assert.assertEquals(expectedId, actualId);
+        Assert.assertEquals(expectedId,actualId );
+
+
+
+
+
     }
 
 
     @Test
-    public void deserializationIntoMapOfSpecificType() {
+    public void deserializationIntoMapOfSpecificType(){
 
         Integer expectedId = 1;
 
         Set<String> expectedKeys = new LinkedHashSet<>(Arrays.asList("id", "name", "releaseDate",
-                "reviewScore", "category", "rating"));
+                "reviewScore", "category","rating"));
 
-        Map<String, Object> responseAsSpecificMap = given().
+     Map<String, Object> responseAsSpecificMap =  given().
                 header("Accept", "application/json").
                 pathParam("videoGameId", expectedId).
                 when().log().all().
@@ -62,27 +68,33 @@ public class Deserialization {
                 then().log().all().
                 assertThat().
                 statusCode(200).
-                header("Content-Type", "application/json").extract().as(new TypeRef<Map<String, Object>>() {
-                });
+                header("Content-Type", "application/json").extract().as(new TypeRef<Map<String,Object>>() {
+        });
 
 
-        Set<String> actualKeySet = responseAsSpecificMap.keySet();
+       Set<String> actualKeySet = responseAsSpecificMap.keySet();
 
-        Assert.assertEquals(expectedKeys, actualKeySet);
+       Assert.assertEquals(expectedKeys, actualKeySet);
+
+
+
+
+
+
 
     }
 
 
     @Test
-    public void deserializationIntoList() {
+    public void deserializationIntoList(){
 
 
         List responseAsList = given(). // anything that you send along with the request is added here
                 header("Accept", "application/json").
                 when().log().all().  // indicate what type of request and the endpoint
-                        get("/videogames").
+                get("/videogames").
                 then().log().all(). // assertions on the returned response are put here
-                        assertThat().
+                assertThat().
                 statusCode(200).
                 header("Content-Type", "application/json").extract().as(List.class);
 
@@ -91,22 +103,22 @@ public class Deserialization {
 
         Assert.assertEquals(17, responseAsList.size());
 
+
     }
 
-
     @Test
-    public void deserializationIntoListOfSpecificType() {
+    public void deserializationIntoListOfSpecificType(){
 
 
-        List<Map<String, Object>> responseAsListOfMaps = given(). // anything that you send along with the request is added here
+        List<Map<String,Object>> responseAsListOfMaps =   given(). // anything that you send along with the request is added here
                 header("Accept", "application/json").
                 when().log().all().  // indicate what type of request and the endpoint
-                        get("/videogames").
+                get("/videogames").
                 then().log().all(). // assertions on the returned response are put here
-                        assertThat().
+                assertThat().
                 statusCode(200).
-                header("Content-Type", "application/json").extract().as(new TypeRef<List<Map<String, Object>>>() {
-                });
+                header("Content-Type", "application/json").extract().as(new TypeRef<List<Map<String,Object>>>() {
+       });
 
 
         System.out.println(responseAsListOfMaps);
@@ -116,13 +128,18 @@ public class Deserialization {
             Object id = eachJson.get("id");
             Assert.assertEquals(Integer.class, id.getClass());
         }
+
+
     }
 
 
+
     @Test
-    public void deserializationIntoPOJO() {
+    public void deserializationIntoPOJO(){
+
 
         Integer expectedId = 1;
+
 
         VideoGame responseAsVideoGameObject = given().
                 header("Accept", "application/json").
@@ -135,61 +152,68 @@ public class Deserialization {
                 header("Content-Type", "application/json").extract().as(VideoGame.class);
 
 
-        System.out.println(responseAsVideoGameObject);
-        Assert.assertEquals(expectedId, responseAsVideoGameObject.getId());
-        Assert.assertEquals("Resident Evil", responseAsVideoGameObject.getName());
+         System.out.println(responseAsVideoGameObject);
+         Assert.assertEquals(expectedId, responseAsVideoGameObject.getId());
+         Assert.assertEquals("Resident Evil", responseAsVideoGameObject.getName());
+
+
+
+
+
+
 
     }
 
 
     @Test
-    public void deserializationIntoListOfPOJOS() {
+    public void deserializationIntoListOfPOJOS(){
 
 
         List<VideoGame> resultAsListOfVideogames = given(). // anything that you send along with the request is added here
                 header("Accept", "application/json").
                 when().log().all().  // indicate what type of request and the endpoint
-                        get("/videogames").
+                get("/videogames").
                 then().log().all(). // assertions on the returned response are put here
-                        assertThat().
+                assertThat().
                 statusCode(200).
                 header("Content-Type", "application/json").extract().as(new TypeRef<List<VideoGame>>() {
-                });
+        });
 
 
         for (VideoGame eachVideogame : resultAsListOfVideogames) {
 
-            Assert.assertTrue(eachVideogame.getReviewScore() >= 0 && eachVideogame.getReviewScore() <= 100);
+            Assert.assertTrue(eachVideogame.getReviewScore()>=0 && eachVideogame.getReviewScore()<=100);
         }
+
 
     }
 
 
     @Test
-    public void deserializeComplexJsonIntoMap() {
+    public void deserializeComplexJsonIntoMap(){
         baseURI = "https://maps.googleapis.com/maps/api/place";
 
 
         Map response =
                 given().
-                        queryParam("fields", "geometry").
-                        queryParam("input", "Mike's American Grill").
-                        queryParam("inputtype", "textquery").
-                        queryParam("key", "AIzaSyDdNmHK2RgQVbpksSzAFI6A2byAcdm_5l8").
-                        when().log().all().
-                        get("/findplacefromtext/json").
-                        then().log().all().
-                        statusCode(200).
-                        body("status", equalTo("OK")).extract().as(Map.class);
+                queryParam("fields", "geometry").
+                queryParam("input", "Mike's American Grill").
+                queryParam("inputtype", "textquery").
+                queryParam("key", "AIzaSyDdNmHK2RgQVbpksSzAFI6A2byAcdm_5l8").
+                when().log().all().
+                get("/findplacefromtext/json").
+                then().log().all().
+                statusCode(200).
+                body("status", equalTo("OK")).extract().as(Map.class);
 
 
-        List candidates = (List) (response.get("candidates"));
+        List candidates = (List)(response.get("candidates"));
 
-        Map firstJson = (Map) (candidates.get(0));
+        Map firstJson = (Map)(candidates.get(0));
 
-        Map geometry = (Map) (firstJson.get("geometry"));
+        Map geometry = (Map)(firstJson.get("geometry"));
 
-        Map location = (Map) (geometry.get("location"));
+        Map location = (Map)(geometry.get("location"));
 
         System.out.println(location.get("lat"));
         System.out.println(location.get("lng"));
@@ -204,6 +228,7 @@ public class Deserialization {
     @Test
     public void deserializeComplexJsonIntoPOJO() {
         baseURI = "https://maps.googleapis.com/maps/api/place";
+
 
         Place responseAsPlacePOJO = given().
                 queryParam("fields", "formatted_address,name,rating,opening_hours").
@@ -225,6 +250,10 @@ public class Deserialization {
 
     }
 
-}
-// To process complex Json we need to convert or better to say deserialize the complex Json response into
-// a POJO or set up POJOs
+
+
+
+
+
+
+    }

@@ -2,8 +2,9 @@ package stepDefinitions;
 
 import io.cucumber.java.en.Then;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.Assert;
 import pages.ShoppingCartPage;
-import utilities.Driver;
+
 import java.util.List;
 import java.util.Map;
 

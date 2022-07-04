@@ -2,10 +2,9 @@
   "id": 121,
   "average_test_score": 89.7,
   "full_name": {
-    "first": "Duoteck",
-    "last": "Academy"
+    "first": "Duotech",
+    "last": "Acdmy"
   },
-  "last_name": "Academy",
   "emails": [
     "duotech2021@gmail.com",
     "dt@gmail.com"
@@ -14,3 +13,5 @@
   "married": false,
   "ssn": null
 }
+
+

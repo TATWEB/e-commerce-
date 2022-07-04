@@ -14,15 +14,16 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
-
 public class ExcelUtils {
+
+
 
     private XSSFWorkbook workBook;
     private XSSFSheet sheet;
     private String path;
 
 
-        // Constructor of the class using path and name of the file
+
     public ExcelUtils(String path, String sheetName) {
         this.path = path;
         try {
@@ -35,7 +36,8 @@ public class ExcelUtils {
         }
     }
 
-        // Get Cell Data
+
+
     public String getCellData(int rowNum, int colNum) {
         XSSFCell cell;
         try {
@@ -47,16 +49,14 @@ public class ExcelUtils {
         }
     }
 
-        // Row Count
     public int rowCount() {
         return sheet.getPhysicalNumberOfRows();
     }
 
-        // Column Count
     public int columnCount() {
         return sheet.getRow(0).getLastCellNum();
     }
-        // get Data as 2D Array
+
     public String[][] getDataAs2DArray() {
         String[][] table = new String[rowCount()][columnCount()];
         for (int i = 0; i <rowCount(); i++) {
@@ -68,7 +68,7 @@ public class ExcelUtils {
         return table;
     }
 
-        // get Data as List of Maps
+
     public List<Map<String, String>> getDataAsListOfMaps() {
 
         List<String> columnNames = getColumnNames(); // gets the names of columns
@@ -90,8 +90,6 @@ public class ExcelUtils {
         }
         return data;
     }
-
-        // get Column Names
     public List<String> getColumnNames() {
         List<String> columns = new ArrayList<>();
         for (Cell cell : sheet.getRow(0)) {
@@ -99,8 +97,6 @@ public class ExcelUtils {
         }
         return columns;
     }
-
-        // set Cell Data using row Number and column Number
     public void setCellData(String value, int rowNum, int colNum) {
         XSSFCell cell;
         XSSFRow row;
@@ -121,8 +117,6 @@ public class ExcelUtils {
             e.printStackTrace();
         }
     }
-
-        // set Cell Data using column Name and row
     public void setCellData(String value, String columnName, int row) {
         int column = getColumnNames().indexOf(columnName);
         setCellData(value, row, column);

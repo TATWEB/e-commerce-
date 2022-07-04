@@ -13,5 +13,3 @@ Feature: Database scenarios
         on city.country_id = country.country_id;
       """
     Then The response should be correct
-
-

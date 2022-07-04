@@ -6,6 +6,7 @@ import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import utilities.Driver;
+
 import java.time.Duration;
 
 public class Hooks {

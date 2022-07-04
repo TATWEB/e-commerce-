@@ -1,10 +1,12 @@
 package apiTests;
 
 import org.junit.Test;
+
 import java.util.Base64;
-import static io.restassured.RestAssured.baseURI;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
+
+import static io.restassured.RestAssured.*;
+import static io.restassured.matcher.RestAssuredMatchers.*;
+import static org.hamcrest.Matchers.*;
 
 public class ApiAuthenticationSchemes {
 
@@ -20,8 +22,8 @@ public class ApiAuthenticationSchemes {
         System.out.println(base64String);
 
         given().
-//                auth().basic("postman", "password").    // this is the easiest way
-        header("Authorization", "Basic " + base64String). // another option is to send it as a header, dont forget the space after Basic
+//                auth().basic("postman", "password").
+        header("Authorization", "Basic " + base64String).
         when().log().all().
                 get("/basic-auth").
         then().log().all().

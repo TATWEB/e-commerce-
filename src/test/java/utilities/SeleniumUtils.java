@@ -1,5 +1,4 @@
 package utilities;
-
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -17,7 +16,8 @@ import java.util.function.Function;
 
 public class SeleniumUtils {
 
-    // Switch to Window
+
+
     public static void switchToWindow(String targetTitle) {
         String origin = Driver.getDriver().getWindowHandle();
         for (String handle : Driver.getDriver().getWindowHandles()) {
@@ -29,26 +29,11 @@ public class SeleniumUtils {
         Driver.getDriver().switchTo().window(origin);
     }
 
-
-    /**
-     * To hover over an element
-     *
-     * @param element
-     */
-    // Hover over an element
     public static void hover(WebElement element) {
         Actions actions = new Actions(Driver.getDriver());
         actions.moveToElement(element).perform();
     }
 
-
-    /**
-     * Extract list of String out of list of webelements
-     *
-     * @param list
-     * @return
-     */
-    // Get Elements Text
     public static List<String> getElementsText(List<WebElement> list) {
         List<String> elemTexts = new ArrayList<>();
         for (WebElement el : list) {
@@ -58,70 +43,51 @@ public class SeleniumUtils {
         }
         return elemTexts;
     }
-
-
-
-
     // Explicit Wait methods
 
-    // Wait for Visibility by Element
     public static void waitForVisibility(WebElement element, int seconds) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(element)));
     }
-
-    // Wait for Visibility by Locator
     public static void waitForVisibility(By locator, int seconds) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(locator)));
     }
-
-    // Wait for Clickability by Element
     public static void waitForClickablility(WebElement element, int seconds) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(element)));
     }
-
-    // Wait for Clickability by Locator
     public static void waitForClickablility(By locator, int seconds) {
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), seconds);
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(locator)));
     }
-
-    // Wait for Presence of the Element located
     public static void waitForPresenceOfElementLocated(By locator, int seconds) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(locator)));
     }
-
-    // Wait for Title Contains
     public static void waitForTitleContains(String partOfTitle, int seconds) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.titleContains(partOfTitle)));
     }
-
-    // Wait for Title is
     public static void waitForTitleIs(String title, int seconds) {
-        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), seconds);
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.titleIs(title)));
     }
-
-    // Wait for Url contains
     public static void waitForUrlContains(String partOfUrl, int seconds) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.urlContains(partOfUrl)));
     }
 
-    // Wait for second
+
+
     public static void waitFor(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-
-    // Wait for Page load
     public static void waitForPageToLoad(int seconds) {
         ExpectedCondition<Boolean> expectation = new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver driver) {
@@ -136,7 +102,7 @@ public class SeleniumUtils {
         }
     }
 
-    // Fluent Wait
+
     public static WebElement fluentWait(WebElement webElement, int timeOutSeconds, int pollingSeconds) {
         Wait<WebDriver> wait = new FluentWait<WebDriver>(Driver.getDriver())
                 .withTimeout(Duration.ofSeconds(timeOutSeconds)).pollingEvery(Duration.ofSeconds(pollingSeconds))
@@ -148,8 +114,6 @@ public class SeleniumUtils {
         });
         return element;
     }
-
-    // Wait for element exists
     public static boolean elementExists(WebElement element, int seconds) {
         try {
             WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(seconds));
@@ -159,17 +123,12 @@ public class SeleniumUtils {
             return false;
         }
     }
-
-
-
-
-    // Get Screenshot
-    public static String getScreenshot(String name) {
+    public static String getScreenshot () {
         TakesScreenshot ts = (TakesScreenshot) Driver.getDriver();
         File source = ts.getScreenshotAs(OutputType.FILE);
         String date = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
-        String fileName = name + date + ".png";
-        String target = System.getProperty("user.dir") + "/test-output/extentReports/" + fileName;
+        String fileName = "failed" + date + ".png";
+        String target = System.getProperty("user.dir") + "/target/extentReports/" + fileName;
         File finalDestination = new File(target);
         try {
             FileUtils.copyFile(source, finalDestination);
@@ -179,23 +138,15 @@ public class SeleniumUtils {
         return fileName;
     }
 
-
-    // Scroll
     public static void scroll(int horizontalAxis, int verticalAxis) {
-        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
-        js.executeScript("window.scrollBy(" + horizontalAxis + "," + verticalAxis + ")");
+        JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
+        js.executeScript("window.scrollBy("+horizontalAxis+","+verticalAxis+")");
     }
-
-
-    // JavaScript Click
     public static void jsClick(WebElement webelement) {
-        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        JavascriptExecutor js = (JavascriptExecutor)Driver.getDriver();
         js.executeScript("arguments[0].click();", webelement);
     }
-
-
-    // Upload File
-    public static void uploadFile(By chooseFileButton, String pathToAFileToBeUploaded) {
+    public static void uploadFile(By chooseFileButton, String pathToAFileToBeUploaded ) {
         Driver.getDriver().findElement(chooseFileButton).sendKeys(pathToAFileToBeUploaded);
     }
 }

@@ -1,6 +1,11 @@
 package apiTests.pojos;
 
+import java.io.Serializable;
+
 public class VideoGame {
+
+
+
 
     private Integer id;
     private String name;
@@ -10,7 +15,7 @@ public class VideoGame {
     private String rating;
 
 
-    public VideoGame(){}     // empty constructor
+    public VideoGame(){}
 
     public VideoGame(Integer id, String name, String releaseDate, Integer reviewScore, String category, String rating) {
         this.id = id;

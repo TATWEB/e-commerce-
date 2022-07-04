@@ -1,11 +1,14 @@
-package apiTests.pojos;
+package apiTests;
 
 import org.junit.Test;
+import static io.restassured.RestAssured.*;
+import static io.restassured.matcher.RestAssuredMatchers.*;
+import static org.hamcrest.Matchers.*;
 
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.lessThan;
 
 public class APITestScenarios {
 
@@ -15,9 +18,9 @@ public class APITestScenarios {
         baseURI = "https://maps.googleapis.com/maps/api/place";
 
 
-        given().
-                // test the happy path with the required params (input,inputtype,key)
-                        queryParam("input", "Duotech Academy").
+      given().
+             // test the happy path with the required params (input,inputtype,key)
+                queryParam("input", "Duotech Academy").
                 queryParam("inputtype", "textquery").
                 queryParam("key", "AIzaSyDdNmHK2RgQVbpksSzAFI6A2byAcdm_5l8").
                 when().log().all().
@@ -35,7 +38,7 @@ public class APITestScenarios {
 
         given().
                 // test the happy path with the required params (input,inputtype,key) and optional parameters
-                        queryParam("input", "Duotech Academy").
+                queryParam("input", "Duotech Academy").
                 queryParam("inputtype", "textquery").
                 queryParam("key", "AIzaSyDdNmHK2RgQVbpksSzAFI6A2byAcdm_5l8").
                 queryParam("fields", "formatted_address,name,rating,opening_hours,geometry,photo").
@@ -49,12 +52,12 @@ public class APITestScenarios {
     }
 
 
+
     @Test
-    public void negativeScenarioWithValidInputCreateGAmeThatALreadyExists() {
+    public void negativeScenarioWithValidInputCreateGAmeThatALreadyExists(){
 
         baseURI = "http://localhost:8080/app";
-        // Assuming the videogame with id 1 already exists, send a request and
-        // verify that the error response
+        // Assuming the videogame with id 1 already exists, send a request and verify that the error response
         given().
                 header("Content-Type", "application/json").
                 header("Accept", "application/json").
@@ -70,7 +73,7 @@ public class APITestScenarios {
                 post("/videogames").
                 then().log().all().
                 assertThat().
-                statusCode(not(200)).  // the code should not be 200
+                statusCode(not(200)).
                 statusCode(500);
 
 
@@ -88,7 +91,7 @@ public class APITestScenarios {
                 delete("/videogames/{videoGameId}").
                 then().log().all(). // assertions on the returned response are put here
                 assertThat().
-                statusCode(not(200)); // bug is found. it should not return the status code 200
+                statusCode(not(200)); // bug
 
     }
 
@@ -128,8 +131,8 @@ public class APITestScenarios {
 
                 queryParam("input", "Duotech Academy").
                 queryParam("inputtype", "textquery").
-                // removed pathParam
-                        when().log().all().
+
+                when().log().all().
                 get("/findplacefromtext/json").
                 then().log().all().
                 statusCode(200).
@@ -138,7 +141,7 @@ public class APITestScenarios {
     }
 
 
-    @Test()
+    @Test ()
     public void negativeScenarioWithInvalidInputMissingRequiredParam() {
 
         baseURI = "http://localhost:8080/app";
@@ -146,8 +149,8 @@ public class APITestScenarios {
         given().
                 header("Content-Type", "application/json").
                 header("Accept", "application/json").
-                // removed pathParam
-                        body("{\n" +
+
+                body("{\n" +
                         "        \"id\": 1,\n" +
                         "            \"name\": \"Mario\",\n" +
                         "            \"releaseDate\": \"2022-01-06T00:36:29.749Z\",\n" +
@@ -165,7 +168,7 @@ public class APITestScenarios {
     }
 
     @Test
-    public void negativeSceanrioInvalidMethodType() {
+    public void negativeSceanrioInvalidMethodType(){
         baseURI = "https://maps.googleapis.com/maps/api/place";
 
 
@@ -178,5 +181,19 @@ public class APITestScenarios {
                 delete("/findplacefromtext/json").  // trying to call endpoint that requires get method with delete method
                 then().log().all().
                 statusCode(405); // expected status code when method is not allowed
+
+
+
+
+
+
+
+
+
+
+
     }
-}
+
+
+
+    }

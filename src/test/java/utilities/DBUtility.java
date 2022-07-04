@@ -10,17 +10,18 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-
 public class DBUtility {
+
     private static Connection connection;
     private static Statement statement;
     private static ResultSet resultSet;
 
 
 
-        // Create Connection
+
+
     public static void createConnection() {
+
         String url = ConfigReader.getProperty("db_url");
         String user = ConfigReader.getProperty("db_username");
         String password = ConfigReader.getProperty("db_password");
@@ -30,8 +31,6 @@ public class DBUtility {
             e.printStackTrace();
         }
     }
-
-        // Close Connection
     public static void close() {
         try {
             if (resultSet != null) {
@@ -47,8 +46,6 @@ public class DBUtility {
             e.printStackTrace();
         }
     }
-
-        // Execute Query
     private static void executeQuery(String query) {
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -61,8 +58,6 @@ public class DBUtility {
             e.printStackTrace();
         }
     }
-
-        // Update Query
     public static int updateQuery(String query) throws SQLException {
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -71,12 +66,11 @@ public class DBUtility {
         }
         int result = statement.executeUpdate(query);
         if(result==0){
-            throw  new RuntimeException("Update was unsuccessful.");
+            throw new RuntimeException("Update was unsuccessful.");
         }
+
         return result;
     }
-
-        // Qet Query Result as List of Lists
     public static List<List<Object>> getQueryResultAsListOfLists(String query) {
         executeQuery(query);
         List<List<Object>> rowList = new ArrayList<>();
@@ -95,9 +89,6 @@ public class DBUtility {
         }
         return rowList;
     }
-
-
-        // Qet Query Result as List of Maps
     public static List<Map<String, Object>> getQueryResultListOfMaps(String query) {
         executeQuery(query);
         List<Map<String, Object>> rowList = new ArrayList<>();
@@ -116,9 +107,6 @@ public class DBUtility {
         }
         return rowList;
     }
-
-
-        // Get Column Names
     public static List<String> getColumnNames(String query) {
         executeQuery(query);
         List<String> columns = new ArrayList<>();
@@ -134,9 +122,6 @@ public class DBUtility {
         }
         return columns;
     }
-
-
-        // Get Row Count
     public static int getRowCount() {
         int rowCount = 0;
         try {
@@ -149,5 +134,3 @@ public class DBUtility {
         return rowCount;
     }
 }
-
-

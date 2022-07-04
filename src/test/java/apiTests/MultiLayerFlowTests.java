@@ -7,9 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import utilities.Driver;
 
-import static io.restassured.RestAssured.baseURI;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static io.restassured.RestAssured.*;
+import static io.restassured.matcher.RestAssuredMatchers.*;
+import static org.hamcrest.Matchers.*;
 
 public class MultiLayerFlowTests {
 

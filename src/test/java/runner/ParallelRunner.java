@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 
 @CucumberOptions(
         tags = "@temp",
-        features = "src/test/resources",  // the relative path of the folder where the feature files are located
+        features = "src/test/resources/parallel",  // the relative path of the folder where the feature files are located
         glue = "stepDefinitions"
 
 

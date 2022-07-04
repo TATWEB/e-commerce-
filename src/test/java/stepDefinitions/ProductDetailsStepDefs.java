@@ -4,11 +4,16 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pages.HomePage;
 import pages.ProductDetailsPage;
 import pages.ShoppingCartPage;
 import utilities.Driver;
+import utilities.SeleniumUtils;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +34,6 @@ public class ProductDetailsStepDefs {
     public void i_should_land_on_the_product_details_page() {
         Assert.assertEquals(productNameAnother + " - My Store", Driver.getDriver().getTitle());
     }
-
     @Then("The default quantity should be {int}")
     public void the_default_quantity_should_be(Integer quantity) {
           Assert.assertEquals(String.valueOf(quantity), new ProductDetailsPage().defaultQuantity.getAttribute("value"));
@@ -48,9 +52,6 @@ public class ProductDetailsStepDefs {
     }
 
 
-
-
-     // Scenario Outline
     @Then("The price should be {double}")
     public void the_price_should_be(Double expectedPrice) {
        Double actualPrice = Double.valueOf(new ProductDetailsPage().price.getText().substring(1));
@@ -125,8 +126,6 @@ public class ProductDetailsStepDefs {
             }
         }
          // The code to extract the price out of the whole String
-
-
 
         Assert.assertEquals(quantityExp, Integer.valueOf(actualQuantity));
 

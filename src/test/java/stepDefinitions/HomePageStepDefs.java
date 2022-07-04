@@ -2,13 +2,13 @@ package stepDefinitions;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import pages.HomePage;
 import pages.ProductDetailsPage;
+import utilities.Driver;
 import utilities.ExcelUtils;
 import utilities.SeleniumUtils;
-import utilities.Driver;
+
 import java.util.*;
 
 public class HomePageStepDefs {
@@ -70,6 +70,10 @@ public class HomePageStepDefs {
     }
 
 
+
+
+
+
     @Then("The popular products and their other details should be the following")
     public void thePopularProductsAndTheirOtherDetailsShouldBeTheFollowing(Map<String, List<String>> expectedMap) {
 
@@ -91,41 +95,53 @@ public class HomePageStepDefs {
     }
 
 
+
+
+
+
+
     @When("I click on on products that are on sale their expected values should be correct according to the given excel file")
     public void iClickOnOnProductsThatAreOnSaleTheirExpectedValuesShouldBeCorrectAccordingToTheGivenExcelFile() throws Throwable {
 
-        ExcelUtils excelUtils = new ExcelUtils("testData.xlsx", "Sheet1");
+        ExcelUtils excelUtils = new ExcelUtils("testData1.xlsx", "Sheet1");
 
         List<Map<String, String>> dataAsListOfMaps = excelUtils.getDataAsListOfMaps();
 
         HomePage homePage = new HomePage();
         ProductDetailsPage productDetailsPage = new ProductDetailsPage();
-        SoftAssertions softAssertions = new SoftAssertions();
         Throwable ex = null;
 
         for (int i = 0; i < dataAsListOfMaps.size(); i++) {
 
             Map<String, String> row = dataAsListOfMaps.get(i);
+
             if (row.get("Execute").equalsIgnoreCase("y")) {
                 homePage.clickOnProductLink(row.get("Product"));
 
-                try {   // if the Assertion fail we write Fail rather than Pass
+                try {
                     Assert.assertEquals(row.get("Product"), productDetailsPage.productName.getText());
                     Assert.assertEquals(row.get("Price"), productDetailsPage.price.getText());
                     Assert.assertEquals(row.get("Model"), productDetailsPage.model.getText());
                     Assert.assertEquals(row.get("Composition"), productDetailsPage.composition.getText());
                     Assert.assertEquals(row.get("Styles"), productDetailsPage.style.getText());
-                    excelUtils.setCellData("Pass", "Status", i + 1);
+                    excelUtils.setCellData("PASS", "Status", i + 1);
                 } catch (Throwable e) {
                     ex = e;
-                    excelUtils.setCellData("Fail", "Status", i + 1);
+                    excelUtils.setCellData("FAIL", "Status", i + 1);
+
+
                 }
+
+
                 Driver.getDriver().navigate().back();
-            }   else {
-                excelUtils.setCellData("Skipped", "Status", i + 1);
+            } else {
+                excelUtils.setCellData("SKIPPED", "Status", i + 1);
             }
+
+
         }
+
         throw ex;
+
     }
 }
-

@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.*;
 
 public class HamcrestMatchers {
@@ -27,7 +28,7 @@ public class HamcrestMatchers {
                 body("$.size()", equalTo(10)).
                 body("name", hasItem("Tetris")).
                 body("name", hasItems("Tetris", "Gran Turismo 3", "Resident Evil 4")).
-//                body("name", contains("Tetris", "Super Mario 64")). // checks ALL items in the array
+//                body("name", contains("Tetris", "Super Mario 64")).
                  body("name", not(empty())).
                 extract().jsonPath();
 
@@ -53,4 +54,3 @@ public class HamcrestMatchers {
                 statusCode(200);
         }
 }
-// when ever we need to use some kind of assertions we can use hamcrest built in methods

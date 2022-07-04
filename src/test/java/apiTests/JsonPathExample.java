@@ -1,5 +1,6 @@
 package apiTests;
 
+import com.github.javafaker.Faker;
 import io.restassured.path.json.JsonPath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class JsonPathExample {
 
 
     @Test
-    public void duoBankGetMortgage() {
+    public void duoBankGetMortgage(){
 
         // Create a new user through API call
         baseURI = "http://qa-duobank.us-east-2.elasticbeanstalk.com/api";
@@ -47,11 +48,16 @@ public class JsonPathExample {
                 statusCode(200).
                 body("success", equalTo(1));
 
+
+
+
+
     }
 
 
+
     @Test
-    public void groovyGpathExamples() {
+    public void groovyGpathExamples(){
         baseURI = "https://maps.googleapis.com/maps/api/place";
 
 
@@ -65,12 +71,13 @@ public class JsonPathExample {
                 then().log().all().
                 statusCode(200).
                 body("status", equalTo("OK")).
-                body("candidates[0].formatted_address", equalTo("6210 Backlick Rd, Springfield, VA 22150, Amerika Birləşmiş Ştatları")).
+                body("candidates[0].formatted_address", equalTo("6210 Backlick Rd, Springfield, VA 22150, United States")).
                 body("candidates[0].geometry.location.lat", equalTo(38.78283F)).
                 body("candidates[0].photos[0].html_attributions[0]", equalTo("<a href=\"https://maps.google.com/maps/contrib/104540936204395176592\">Mike&#39;s &quot;American&quot;</a>")).
 
                 time(lessThan(2000L)).
                 extract().jsonPath();
+
 
 
         //  Extract "candidates"
@@ -94,36 +101,38 @@ public class JsonPathExample {
 
 
     @Test
-    public void groovyPathArrayExample() {
+    public void groovyPathArrayExample(){
 
-        baseURI = "http://localhost:8080/app";
+       baseURI = "http://localhost:8080/app";
 
         JsonPath response = given(). // anything that you send along with the request is added here
                 header("Accept", "application/json").
                 when().log().all().  // indicate what type of request and the endpoint
-                        get("/videogames").
+                get("/videogames").
                 then().log().all(). // assertions on the returned response are put here
-                        assertThat().
+                assertThat().
                 statusCode(200).
                 header("Content-Type", "application/json").
                 body("[0].name", equalTo("Resident Evil 4")).
                 body("$.size()", equalTo(10)).extract().jsonPath();
 
-        // $ -> represents the root array. Used to access array or its elements when the response is an array
-        Object array = response.get("$");
+                // $ -> represents the root array. Used to access array or its elements when the response is an array
+                 Object array = response.get("$");
 
-        System.out.println(array);
+                System.out.println(array);
 
-        Object names = response.get(".name");
+                Object names = response.get(".name");
 
-        System.out.println(names);
+               System.out.println(names);
+
+
 
 
     }
 
 
     @Test
-    public void testGroovyPathWith() {
+    public void testGroovyPathWith(){
 
 
         baseURI = "https://api.football-data.org/v2";
@@ -144,26 +153,32 @@ public class JsonPathExample {
         System.out.println(listOfNames);
 
         // Find the first occurrence of Everton FC
-        String findSignle = jsonPath.get("teams.name.find{it == 'Everton FC'}");
+        String findSignle =  jsonPath.get("teams.name.find{it == 'Everton FC'}");
 
         System.out.println(findSignle);
 
         // Find all teams whose name starts with 'M'
 
-        List allTeamsM = jsonPath.get("teams.name.findAll{ it.startsWith('M') }");
+        List allTeamsM =  jsonPath.get("teams.name.findAll{ it.startsWith('M') }");
 
         System.out.println(allTeamsM);
 
         // Find all teams that are founded after 1900
 
-        List allTeamsafter1900 = jsonPath.get("teams.findAll{ it.founded > 1900 }.name");
+        List allTeamsafter1900 =  jsonPath.get("teams.findAll{ it.founded > 1900 }.name");
 
         System.out.println(allTeamsafter1900);
 
-
-        List allTeamswithNUllPhoneNo = jsonPath.get("teams.findAll{ it.email == null || it.phone == null }.name");
+        List allTeamswithNUllPhoneNo=  jsonPath.get("teams.findAll{ it.email == null || it.phone == null }.name");
 
         System.out.println(allTeamswithNUllPhoneNo);
+
+
+
+
+
+
+
 
 
     }
@@ -180,7 +195,7 @@ public class JsonPathExample {
                 then().log().all().
                 statusCode(200).extract().jsonPath();
 
-        // Show all dates of birth.
+
         List allDateOfBirth = jsonPath.get("squad.collect{ it.dateOfBirth.substring(0,4) }");
 
         System.out.println(allDateOfBirth);
@@ -210,12 +225,14 @@ public class JsonPathExample {
 
         int noOfPlayers = jsonPath.get("squad.size()");
 
-        System.out.println(sumOfAllDobs / noOfPlayers);
+        System.out.println(sumOfAllDobs/noOfPlayers);
 
-        int averageAge = 2022 - sumOfAllDobs / noOfPlayers;
+        int averageAge = 2022 - sumOfAllDobs/noOfPlayers;
 
         System.out.println(averageAge);
 
 
+
+
     }
-}
+    }

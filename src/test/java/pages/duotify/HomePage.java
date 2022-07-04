@@ -7,9 +7,11 @@ import utilities.Driver;
 
 public class HomePage {
 
+
     public HomePage(){
         PageFactory.initElements(Driver.getDriver(), this);
     }
+
 
     @FindBy(id = "nameFirstAndLast")
     public WebElement username;
@@ -23,6 +25,16 @@ public class HomePage {
     @FindBy(name = "email")
     public WebElement nameField;
 
-    @FindBy(xpath = "//span[.='Your Music'")
+
+
+    @FindBy(xpath = "//span[.='Your Music']")
     public WebElement yourMusic;
+
+
+
+
+
+
+
+
 }
