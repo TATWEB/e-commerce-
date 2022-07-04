@@ -104,6 +104,7 @@ public class DuotifyStepDefs {
 
         DBUtility.updateQuery(query);
 
+
     }
     @Then("I should be able to log in with the {string} as uasername and {string} as password on the UI")
     public void iShouldBeAbleToLogInWithTheAsUasernameAndAsPasswordOnTheUI(String user, String pass) throws SQLException {
@@ -120,9 +121,6 @@ public class DuotifyStepDefs {
         DBUtility.close();
 
     }
-
-
-
 
     List<String> actualColumnNames;
     @When("I retrieve the column names for the Songs table")

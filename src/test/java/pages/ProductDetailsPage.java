@@ -67,6 +67,7 @@ public class ProductDetailsPage {
 
 
     //a[@title='Blue']
+
     public void chooseColor(String color){
         Driver.getDriver().findElement(By.xpath("//a[@title='"+color+"']")).click();
     }

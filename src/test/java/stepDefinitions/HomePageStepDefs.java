@@ -1,8 +1,11 @@
 package stepDefinitions;
 
 import io.cucumber.java.en.Then;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.When;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
+import org.junit.ComparisonFailure;
 import pages.HomePage;
 import pages.ProductDetailsPage;
 import utilities.Driver;
@@ -26,16 +29,17 @@ public class HomePageStepDefs {
 
     @Then("The popular products and their prices should be the following")
     public void thePopularProductsAndTheirPricesShouldBeTheFollowing(Map<String, String> expectedProductPrice) {
+
         System.out.println(expectedProductPrice);
 
 //        expectedProductPrice.put("Dress", "34.56"); //java.lang.UnsupportedOperationException
-        HomePage homePage = new HomePage();
+       HomePage homePage =  new HomePage();
 
         List<String> actualProduct = new ArrayList<>(new LinkedHashSet<>(SeleniumUtils.getElementsText(homePage.allPopularProducts)));
 //
-        Map<String, String> actualProductPriceMap = new LinkedHashMap<>();
+        Map <String, String> actualProductPriceMap = new LinkedHashMap<>();
 
-        for (String product : actualProduct) {
+        for (String product: actualProduct){
 
             homePage.clickOnProductLink(product);
             String price = new ProductDetailsPage().price.getText().substring(1);
@@ -45,22 +49,28 @@ public class HomePageStepDefs {
 
         System.out.println(actualProductPriceMap);
         Assert.assertEquals(expectedProductPrice, actualProductPriceMap);
+
+
     }
+
+
 
 
     @Then("I should see the following customers")
     public void iShouldSeeTheFollowingCustomers(List<List<String>> dataTable) {
 
+
 //        for (List<String> row : dataTable) {
 //            System.out.println(row);
 //        }
-
         System.out.println(dataTable.get(2).get(2));
+
     }
 
 
     @Then("I should see the following customers using")
-    public void iShouldSeeTheFollowingCustomersUsing(List<Map<String, String>> dataTable) {
+    public void iShouldSeeTheFollowingCustomersUsing( List<Map<String,String>> dataTable) {
+
 
         for (Map<String, String> row : dataTable) {
             System.out.println(row);
@@ -70,14 +80,10 @@ public class HomePageStepDefs {
     }
 
 
-
-
-
-
     @Then("The popular products and their other details should be the following")
-    public void thePopularProductsAndTheirOtherDetailsShouldBeTheFollowing(Map<String, List<String>> expectedMap) {
+    public void thePopularProductsAndTheirOtherDetailsShouldBeTheFollowing(Map<String, List<String> > expectedMap) {
 
-        Map<String, List<String>> actualMap = new LinkedHashMap<>();
+        Map<String, List<String> > actualMap =  new LinkedHashMap<>();
         List<String> products = new ArrayList<>(new LinkedHashSet<>(SeleniumUtils.getElementsText(new HomePage().allPopularProducts)));
 
         for (String product : products) {
@@ -90,15 +96,13 @@ public class HomePageStepDefs {
             actualMap.put(product, Arrays.asList(price, model, condition));
 
             Driver.getDriver().navigate().back();
+
+
         }
+
         Assert.assertEquals(expectedMap, actualMap);
+
     }
-
-
-
-
-
-
 
     @When("I click on on products that are on sale their expected values should be correct according to the given excel file")
     public void iClickOnOnProductsThatAreOnSaleTheirExpectedValuesShouldBeCorrectAccordingToTheGivenExcelFile() throws Throwable {
@@ -115,7 +119,7 @@ public class HomePageStepDefs {
 
             Map<String, String> row = dataAsListOfMaps.get(i);
 
-            if (row.get("Execute").equalsIgnoreCase("y")) {
+            if(row.get("Execute").equalsIgnoreCase("y")){
                 homePage.clickOnProductLink(row.get("Product"));
 
                 try {
@@ -125,7 +129,7 @@ public class HomePageStepDefs {
                     Assert.assertEquals(row.get("Composition"), productDetailsPage.composition.getText());
                     Assert.assertEquals(row.get("Styles"), productDetailsPage.style.getText());
                     excelUtils.setCellData("PASS", "Status", i + 1);
-                } catch (Throwable e) {
+                }catch(Throwable e){
                     ex = e;
                     excelUtils.setCellData("FAIL", "Status", i + 1);
 
@@ -133,8 +137,10 @@ public class HomePageStepDefs {
                 }
 
 
+
+
                 Driver.getDriver().navigate().back();
-            } else {
+            }else{
                 excelUtils.setCellData("SKIPPED", "Status", i + 1);
             }
 

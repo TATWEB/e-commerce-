@@ -26,7 +26,7 @@ public class HomePage {
 
 
 
-        // creating a dynamic method for passing multiple values
+
     public void clickOnProductLink(String product){
         String xpath = "//ul[@id='homefeatured']//a[@title='"+product+"'][@class='product-name']";
         Driver.getDriver().findElement(By.xpath(xpath)).click();

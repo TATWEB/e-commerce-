@@ -11,6 +11,9 @@ public class ShoppingCartPage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
+
+
+
     @FindBy(id = "summary_products_quantity")
     public WebElement quantity;
 

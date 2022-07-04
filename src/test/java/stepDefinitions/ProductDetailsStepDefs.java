@@ -23,7 +23,6 @@ public class ProductDetailsStepDefs {
     Integer quantityExp;
     String expectedSizeClass;
     String expectedColorClass;
-
     @When("I click on {string}")
     public void i_click_on(String productName) throws InterruptedException {
         productNameAnother = productName;
@@ -67,14 +66,17 @@ public class ProductDetailsStepDefs {
     public void theDetailsOfTheProductShouldBeTheFollowing(List<Map<String,String>> dataTable) {
 
         Map<String, String> expectedData = dataTable.get(0);
+
+
         ProductDetailsPage productDetailsPage = new ProductDetailsPage();
 
         //JUnit does NOT have any built in soft assertions
         // Instead we can AssertJ library that offers SoftAssertions class
 
         SoftAssertions softAssertions = new SoftAssertions();
-        // there is another method of SoftAssertions -> assertThat and isEqualTo
+
         softAssertions.assertThat(expectedData.get("name")).isEqualTo(productDetailsPage.productName.getText() );
+
         softAssertions.assertThat(expectedData.get("price")).isEqualTo(productDetailsPage.price.getText().substring(1));
         softAssertions.assertThat(expectedData.get("model")).isEqualTo( productDetailsPage.model.getText() );
         softAssertions.assertThat(expectedData.get("condition")).isEqualTo( productDetailsPage.condition.getText());
@@ -82,6 +84,8 @@ public class ProductDetailsStepDefs {
         softAssertions.assertThat(expectedData.get("default_size")).isEqualTo( new Select(new ProductDetailsPage().defaultSize).getFirstSelectedOption().getText() );
 
          softAssertions.assertAll();
+
+
     }
 
 
@@ -89,9 +93,6 @@ public class ProductDetailsStepDefs {
     public void theTitleOfThePageShouldContain(String string) {
       Assert.assertTrue(Driver.getDriver().getTitle().contains(string));
     }
-
-
-
 
 
     @When("I increase the quantity to {int} and choose size {string} and color {string} and click on add to cart button")
@@ -105,17 +106,29 @@ public class ProductDetailsStepDefs {
         for (int i = 0; i < quantity-1; i++) {
             productDetailsPage.plusButton.click();
         }
+
+
+
+
         productDetailsPage.chooseSize(expectedSize);
         productDetailsPage.chooseColor(expectedColor);
 
         productDetailsPage.addToCartButton.click();
+
+
+//
+
+
+
+
     }
-
-
-
 
     @Then("The quantity, size and color should be correct")
     public void theQuantitySizeAndColorShouldBeCorrect() throws InterruptedException {
+
+
+
+
 
         String actualQuantityWithExtra = new ShoppingCartPage().quantity.getText();
 
@@ -127,6 +140,7 @@ public class ProductDetailsStepDefs {
         }
          // The code to extract the price out of the whole String
 
+
         Assert.assertEquals(quantityExp, Integer.valueOf(actualQuantity));
 
         String sizeAndColor = new ShoppingCartPage().sizeAndColor.getText();
@@ -136,6 +150,8 @@ public class ProductDetailsStepDefs {
         String actualColor = sizeAndColor.split(" ")[2].replace(",", "");
         Assert.assertEquals(expectedColorClass, actualColor);
         Thread.sleep(2000);
+
+
     }
 
 
@@ -144,8 +160,8 @@ public class ProductDetailsStepDefs {
         Thread.sleep(3000);
        new ProductDetailsPage().proceedButton.click();
        Thread.sleep(2000);
-    }
 
+    }
 
 
     @Then("The product price should be {double}")

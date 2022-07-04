@@ -8,8 +8,6 @@ public class Candidate {
     public OpeningHours opening_hours;
     public Integer rating;
 
-    // the variable in POJO should be private
-
     public Candidate(){}
 
     public Candidate(String formatted_address, String name, OpeningHours opening_hours, Integer rating) {

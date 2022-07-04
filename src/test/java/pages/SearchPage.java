@@ -17,7 +17,7 @@ public class SearchPage {
     @FindBy(xpath = "//span[@class='lighter']")
     public WebElement searchTerm;
 
-    @FindBy(className = "alert-warning")  // classname can ONLY be used with a single class name (no space between)
+    @FindBy(className = "alert-warning")  // classname can ONLY be used with a single class name
                                           //alert alert-warning  does not work
     public WebElement alert;
 
