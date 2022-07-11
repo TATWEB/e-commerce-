@@ -6,7 +6,7 @@ Feature:  Product details
   Scenario: Verify product details
 
     Given I am on the homepage
-    When I click on "Printed Dress"
+    When I click on "Printed asdfsa"
     Then I should land on the product details page
     And The default quantity should be 1
 
